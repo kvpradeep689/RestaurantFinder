@@ -17,13 +17,27 @@ var RestaurantService = (function () {
         console.log('Restaurant Service Initialized...');
     }
     RestaurantService.prototype.getRestaurants = function () {
+        console.log('Service: Getting all restaurants');
         return this.http.get('http://localhost:3000/api/restaurants')
             .map(function (res) { return res.json(); });
     };
     RestaurantService.prototype.addRestaurant = function (newRestaurant) {
+        console.log('Service: Adding ' + newRestaurant.name);
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
         return this.http.post('http://localhost:3000/api/restaurant', JSON.stringify(newRestaurant), { headers: headers })
+            .map(function (res) { return res.json(); });
+    };
+    RestaurantService.prototype.updateRestaurant = function (restaurant) {
+        console.log('Service: Updating ' + restaurant._id);
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        return this.http.put('/api/restaurant/' + restaurant._id, JSON.stringify(restaurant), { headers: headers })
+            .map(function (res) { return res.json(); });
+    };
+    RestaurantService.prototype.deleteRestaurant = function (id) {
+        console.log('Service: Deleting ' + id);
+        return this.http.delete('/api/restaurant/' + id)
             .map(function (res) { return res.json(); });
     };
     RestaurantService = __decorate([

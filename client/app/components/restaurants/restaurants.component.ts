@@ -44,4 +44,36 @@ export class RestaurantsComponent  {
                 this.name = '';
             })
     }
+
+    updateRestaurant(restaurant){
+        event.preventDefault();
+        //console.log(this.name);
+        var updRestaurant = {
+            name: restaurant.name,
+            description: restaurant.description,
+            city: restaurant.city,
+            state: restaurant.state,
+            cuisine: restaurant.cuisine,
+            rating: restaurant.rating
+        }
+
+        this.restaurantService.updateRestaurant(updRestaurant)
+            .subscribe(data => {
+                
+            })
+    }
+
+    deleteRestaurant(id){
+        var restaurants = this.restaurants;
+        this.restaurantService.deleteRestaurant(id)
+            .subscribe(data => {
+                if(data.n == 1){
+                    for(var i = 0; i < restaurants.length; i++){
+                        if(restaurants[i]._id == id){
+                            restaurants.splice(i, 1);
+                        }
+                    }
+                }
+            })
+    }
 }

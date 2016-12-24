@@ -38,6 +38,34 @@ var RestaurantsComponent = (function () {
             _this.name = '';
         });
     };
+    RestaurantsComponent.prototype.updateRestaurant = function (restaurant) {
+        event.preventDefault();
+        //console.log(this.name);
+        var updRestaurant = {
+            name: restaurant.name,
+            description: restaurant.description,
+            city: restaurant.city,
+            state: restaurant.state,
+            cuisine: restaurant.cuisine,
+            rating: restaurant.rating
+        };
+        this.restaurantService.updateRestaurant(updRestaurant)
+            .subscribe(function (data) {
+        });
+    };
+    RestaurantsComponent.prototype.deleteRestaurant = function (id) {
+        var restaurants = this.restaurants;
+        this.restaurantService.deleteRestaurant(id)
+            .subscribe(function (data) {
+            if (data.n == 1) {
+                for (var i = 0; i < restaurants.length; i++) {
+                    if (restaurants[i]._id == id) {
+                        restaurants.splice(i, 1);
+                    }
+                }
+            }
+        });
+    };
     RestaurantsComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
