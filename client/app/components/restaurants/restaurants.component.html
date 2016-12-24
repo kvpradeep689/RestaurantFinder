@@ -10,27 +10,28 @@
     </div>
 </form>
 
-<div class="restaurant-list">
-    <div class="row">
+<div class="container-fluid" style="border: solid 1px black; border-radius: 10px;">
+    <div class="row" style="background-color: #f0f0f0; border-top-left-radius: 10px; border-top-right-radius: 10px;">
        <div class="col-md-2">
-            Restaurant Name
+            <strong>Restaurant Name</strong>
         </div>
         <div class="col-md-2">
-            Description
+            <strong>Description</strong>
         </div>
         <div class="col-md-2">
-            City
+            <strong>City</strong>
         </div>
         <div class="col-md-2">
-            State
+            <strong>State</strong>
         </div>
         <div class="col-md-1">
-            Cuisine
+            <strong>Cuisine</strong>
         </div>
         <div class="col-md-1">
-            Rating
+            <strong>Rating</strong>
         </div>
     </div>
+    <br>
     <div class="row" *ngFor="let restaurant of restaurants">
         <div class="col-md-2">
             {{ restaurant.name }}
