@@ -1,1 +1,20 @@
-Restaurants
+<form class="well" (submit)="addRestaurant($event)">
+    <div class="form-group">
+        <input type="text" [(ngModel)]="name" name="name" class="form-contol" placeholder="Add Restaurant" />
+    </div>
+</form>
+
+<div class="restaurant-list">
+    <div *ngFor="let restaurant of restaurants">
+        <div class="col-md-1">
+            <input type="checkbox">
+        </div>
+        <div class="col-md-7">
+            {{ restaurant.name }}
+        </div>
+        <div class="col-md-4">
+            <input type="button" (click)="deleteRestaurant(restaurant._id)" value="Delete" class="btn btn-danger">
+        </div>
+        <br><br>
+    </div>    
+</div>

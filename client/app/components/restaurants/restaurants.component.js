@@ -9,9 +9,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var restaurant_service_1 = require('../../services/restaurant.service');
 var RestaurantsComponent = (function () {
-    function RestaurantsComponent() {
+    function RestaurantsComponent(restaurantService) {
+        var _this = this;
+        this.restaurantService = restaurantService;
+        this.restaurantService.getRestaurants()
+            .subscribe(function (restaurants) {
+            _this.restaurants = restaurants;
+        });
     }
+    RestaurantsComponent.prototype.addRestaurant = function (event) {
+        var _this = this;
+        event.preventDefault();
+        //console.log(this.name);
+        var newRestaurant = {
+            name: this.name,
+            description: this.description,
+            city: this.city,
+            state: this.state,
+            cuisine: "Dummy cuisine",
+            rating: this.rating
+        };
+        //this.restaurants.push(newRestaurant);
+        this.restaurantService.addRestaurant(newRestaurant)
+            .subscribe(function (restaurant) {
+            _this.restaurants.push(restaurant);
+            _this.name = '';
+        });
+    };
     RestaurantsComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -19,7 +45,7 @@ var RestaurantsComponent = (function () {
             //templateUrl: `restaurants.component.html`,
             templateUrl: 'restaurants.component.html',
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [restaurant_service_1.RestaurantService])
     ], RestaurantsComponent);
     return RestaurantsComponent;
 }());
