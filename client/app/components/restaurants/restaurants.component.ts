@@ -33,7 +33,7 @@ export class RestaurantsComponent  {
             description: this.description,
             city: this.city,
             state: this.state,
-            cuisine: "Dummy cuisine",
+            cuisine: this.cuisine,
             rating: this.rating
         }
 
@@ -42,6 +42,11 @@ export class RestaurantsComponent  {
             .subscribe(restaurant => {
                 this.restaurants.push(restaurant);
                 this.name = '';
+                this.description = '';
+                this.city = '';
+                this.state = '';
+                this.cuisine = '';
+                this.rating = null;
             })
     }
 

@@ -1,18 +1,56 @@
-<form class="well" (submit)="addRestaurant($event)">
+<form class="well">
     <div class="form-group">
-        <input type="text" [(ngModel)]="name" name="name" class="form-contol" placeholder="Add Restaurant" />
+        <input type="text" [(ngModel)]="name" name="name" class="form-contol" placeholder="Restaurant Name" />
+        <input type="text" [(ngModel)]="description" name="description" class="form-contol" placeholder="Description" />
+        <input type="text" [(ngModel)]="city" name="city" class="form-contol" placeholder="City" />
+        <input type="text" [(ngModel)]="state" name="state" class="form-contol" placeholder="State" />
+        <input type="text" [(ngModel)]="cuisine" name="cuisine" class="form-contol" placeholder="Cuisine" />
+        <input type="text" [(ngModel)]="rating" name="rating" class="form-contol" style="width:60px" placeholder="Rating" />
+        <input type="button" (click)="addRestaurant($event)" value="Add" class="btn btn-primary">
     </div>
 </form>
 
 <div class="restaurant-list">
-    <div *ngFor="let restaurant of restaurants">
-        <div class="col-md-1">
-            <input type="checkbox">
+    <div class="row">
+       <div class="col-md-2">
+            Restaurant Name
         </div>
-        <div class="col-md-7">
+        <div class="col-md-2">
+            Description
+        </div>
+        <div class="col-md-2">
+            City
+        </div>
+        <div class="col-md-2">
+            State
+        </div>
+        <div class="col-md-1">
+            Cuisine
+        </div>
+        <div class="col-md-1">
+            Rating
+        </div>
+    </div>
+    <div class="row" *ngFor="let restaurant of restaurants">
+        <div class="col-md-2">
             {{ restaurant.name }}
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
+            {{ restaurant.description }}
+        </div>
+        <div class="col-md-2">
+            {{ restaurant.city }}
+        </div>
+        <div class="col-md-2">
+            {{ restaurant.state }}
+        </div>
+        <div class="col-md-1">
+            {{ restaurant.cuisine }}
+        </div>
+        <div class="col-md-1">
+            {{ restaurant.rating }}
+        </div>
+        <div class="col-md-2">
             <input type="button" (click)="deleteRestaurant(restaurant._id)" value="Delete" class="btn btn-danger">
         </div>
         <br><br>

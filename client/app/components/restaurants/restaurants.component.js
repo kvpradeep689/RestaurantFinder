@@ -28,7 +28,7 @@ var RestaurantsComponent = (function () {
             description: this.description,
             city: this.city,
             state: this.state,
-            cuisine: "Dummy cuisine",
+            cuisine: this.cuisine,
             rating: this.rating
         };
         //this.restaurants.push(newRestaurant);
@@ -36,6 +36,11 @@ var RestaurantsComponent = (function () {
             .subscribe(function (restaurant) {
             _this.restaurants.push(restaurant);
             _this.name = '';
+            _this.description = '';
+            _this.city = '';
+            _this.state = '';
+            _this.cuisine = '';
+            _this.rating = null;
         });
     };
     RestaurantsComponent.prototype.updateRestaurant = function (restaurant) {
