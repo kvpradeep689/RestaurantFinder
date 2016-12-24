@@ -1,0 +1,34 @@
+[
+{
+	"name": "McDonalds",
+	"description": "Fast food chain",
+	"city": "Charleston",
+	"state": "South Carolina",
+	"cuisine": "American",
+	"rating": 4
+},
+{
+	"name": "Olive Garden",
+	"description": "Dine in Italian restaurant",
+	"city": "Charleston",
+	"state": "South Carolina",
+	"cuisine": "Italian",
+	"rating": 4
+},
+{
+	"name": "Andolinis",
+	"description": "Pizza restaurant",
+	"city": "Charleston",
+	"state": "South Carolina",
+	"cuisine": "Italian",
+	"rating": 3
+},
+{
+	"name": "Taste of Thai",
+	"description": "Tasty food from Thailand",
+	"city": "Charleston",
+	"state": "South Carolina",
+	"cuisine": "Asian",
+	"rating": 4
+}
+]
