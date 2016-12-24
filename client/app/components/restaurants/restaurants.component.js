@@ -17,6 +17,8 @@ var RestaurantsComponent = (function () {
         this.restaurantService.getRestaurants()
             .subscribe(function (restaurants) {
             _this.restaurants = restaurants;
+        }, function (error) {
+            _this.displayErrors(error);
         });
     }
     RestaurantsComponent.prototype.addRestaurant = function (event) {
@@ -41,9 +43,13 @@ var RestaurantsComponent = (function () {
             _this.state = '';
             _this.cuisine = '';
             _this.rating = null;
+            _this.error = "";
+        }, function (error) {
+            _this.displayErrors(error);
         });
     };
     RestaurantsComponent.prototype.updateRestaurant = function (restaurant) {
+        var _this = this;
         event.preventDefault();
         //console.log(this.name);
         var updRestaurant = {
@@ -56,9 +62,13 @@ var RestaurantsComponent = (function () {
         };
         this.restaurantService.updateRestaurant(updRestaurant)
             .subscribe(function (data) {
+            _this.error = "";
+        }, function (error) {
+            _this.displayErrors(error);
         });
     };
     RestaurantsComponent.prototype.deleteRestaurant = function (id) {
+        var _this = this;
         var restaurants = this.restaurants;
         this.restaurantService.deleteRestaurant(id)
             .subscribe(function (data) {
@@ -69,7 +79,14 @@ var RestaurantsComponent = (function () {
                     }
                 }
             }
+            _this.error = "";
+        }, function (error) {
+            _this.displayErrors(error);
         });
+    };
+    RestaurantsComponent.prototype.displayErrors = function (error) {
+        console.log(error);
+        this.error = error._body;
     };
     RestaurantsComponent = __decorate([
         core_1.Component({

@@ -28,10 +28,11 @@ router.get('/restaurant/:id', function(req, res, next){
 //Add Restaurant
 router.post('/restaurant', function(req, res, next){
     var restaurant = req.body;
-    if(!restaurant.name || !restaurant.cuisine){
+    if(!restaurant.name || !isNumeric(restaurant.rating)){
+        var errorMessage = buildErrorMessage(restaurant);
         res.status(400);
         res.json({
-            "error": "Invalid data. Check your request."
+            "error": errorMessage
         });
     }
     else{
@@ -65,23 +66,24 @@ router.put('/restaurant/:id', function(req, res, next){
     if(restaurant.cuisine){
         updrestaurant.cuisine = restaurant.cuisine;
     }
-    if(restaurant.cuisine){
+    if(restaurant.description){
         updrestaurant.description = restaurant.description;
     }
-    if(restaurant.cuisine){
+    if(restaurant.city){
         updrestaurant.city = restaurant.city;
     }
-    if(restaurant.cuisine){
+    if(restaurant.state){
         updrestaurant.state = restaurant.state;
     }
-    if(restaurant.cuisine){
+    if(restaurant.rating){
         updrestaurant.rating = restaurant.rating;
     }
     
-    if(!updrestaurant){
+    if(!updrestaurant || !isNumeric(updrestaurant.rating)){
+        var errorMessage = buildErrorMessage(updrestaurant);
         res.status(400);
         res.json({
-            "error": "Invalid data. Check your request."
+            "error": errorMessage
         });
     }
     else{
@@ -94,4 +96,23 @@ router.put('/restaurant/:id', function(req, res, next){
     }
 });
 
+function buildErrorMessage(restaurant)
+{
+    var errorMessage = "";
+    //console.log(restaurant);
+    if(!restaurant.name)
+    {
+        errorMessage = "Name is required to add restaurant. "
+    }
+    if(!isNumeric(restaurant.rating))
+    {
+        errorMessage += "Rating should be a number. "
+     }
+    errorMessage += "Invalid data. Check your request."
+    return errorMessage;
+}
+
+function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
 module.exports = router;

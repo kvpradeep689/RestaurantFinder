@@ -1,3 +1,8 @@
+<div *ngIf="error" class="form-group form-group-sm">
+    <div class="alert alert-warning alert-dismissible col-md-12" role="alert">
+    {{error}}
+    </div>
+</div>
 <form class="well">
     <div class="form-group">
         <input type="text" [(ngModel)]="name" name="name" class="form-contol" placeholder="Restaurant Name" />

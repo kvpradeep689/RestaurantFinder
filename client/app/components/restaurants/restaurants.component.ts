@@ -18,10 +18,14 @@ export class RestaurantsComponent  {
     cuisine: string;
     rating: number;
     
+    error: string;
+
     constructor(private restaurantService:RestaurantService){
         this.restaurantService.getRestaurants()
             .subscribe(restaurants => {
                 this.restaurants = restaurants;
+            }, error => {
+                this.displayErrors(error);
             })
     }
 
@@ -47,6 +51,9 @@ export class RestaurantsComponent  {
                 this.state = '';
                 this.cuisine = '';
                 this.rating = null;
+                this.error = "";
+            }, error => {
+                this.displayErrors(error);
             })
     }
 
@@ -64,7 +71,9 @@ export class RestaurantsComponent  {
 
         this.restaurantService.updateRestaurant(updRestaurant)
             .subscribe(data => {
-                
+                this.error = "";
+            }, error => {
+                this.displayErrors(error);
             })
     }
 
@@ -79,6 +88,14 @@ export class RestaurantsComponent  {
                         }
                     }
                 }
+                this.error = "";
+            }, error => {
+                this.displayErrors(error);
             })
     }
+
+    displayErrors(error) {
+        console.log(error);
+        this.error = error._body;
+   }
 }
