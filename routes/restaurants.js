@@ -28,7 +28,7 @@ router.get('/restaurant/:id', function(req, res, next){
 //Add Restaurant
 router.post('/restaurant', function(req, res, next){
     var restaurant = req.body;
-    if(!restaurant.name || !isNumeric(restaurant.rating)){
+    if(!restaurant.name || !isValidRating(restaurant.rating)){
         var errorMessage = buildErrorMessage(restaurant);
         res.status(400);
         res.json({
@@ -79,7 +79,7 @@ router.put('/restaurant/:id', function(req, res, next){
         updrestaurant.rating = restaurant.rating;
     }
     
-    if(!updrestaurant || !isNumeric(updrestaurant.rating)){
+    if(!updrestaurant || !isValidRating(updrestaurant.rating)){
         var errorMessage = buildErrorMessage(updrestaurant);
         res.status(400);
         res.json({
@@ -104,15 +104,16 @@ function buildErrorMessage(restaurant)
     {
         errorMessage = "Name is required to add restaurant. "
     }
-    if(!isNumeric(restaurant.rating))
+    if(!isValidRating(restaurant.rating))
     {
-        errorMessage += "Rating should be a number. "
+        errorMessage += "Rating should be a number between 1 and 5. "
      }
     errorMessage += "Invalid data. Check your request."
     return errorMessage;
 }
 
-function isNumeric(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
+function isValidRating(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n) && n >= 1 && n <= 5;
 }
+
 module.exports = router;
