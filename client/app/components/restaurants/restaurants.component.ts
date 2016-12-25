@@ -11,14 +11,17 @@ import { Restaurant } from '../../../restaurant';
 
 export class RestaurantsComponent  {
     restaurants: Restaurant[];
-    name: string;
-    description: string;
-    city: string;
-    state: string;
-    cuisine: string;
-    rating: number;
-    
+    public currentRestaurant = {
+        _id: "",
+        name: "",
+        description: "",
+        city: "",
+        state: "",
+        cuisine: "",
+        rating: 0,
+    }
     error: string;
+    isAdd: boolean;
 
     constructor(private restaurantService:RestaurantService){
         this.restaurantService.getRestaurants()
@@ -27,51 +30,61 @@ export class RestaurantsComponent  {
             }, error => {
                 this.displayErrors(error);
             })
+          this.isAdd = true;
     }
 
     addRestaurant(event: any){
         event.preventDefault();
         //console.log(this.name);
-        var newRestaurant = {
-            name: this.name,
-            description: this.description,
-            city: this.city,
-            state: this.state,
-            cuisine: this.cuisine,
-            rating: this.rating
+        //this.restaurants.push(newRestaurant);
+        if(this.isAdd) {
+            this.restaurantService.addRestaurant(this.currentRestaurant)
+                .subscribe(restaurant => {
+                    this.restaurants.push(restaurant);
+                    this.isAdd = true;
+                    this.error = "";
+                }, error => {
+                    this.displayErrors(error);
+                })
+        }
+        else
+        {
+            this.updateRestaurant(this.currentRestaurant);
         }
 
-        //this.restaurants.push(newRestaurant);
-        this.restaurantService.addRestaurant(newRestaurant)
-            .subscribe(restaurant => {
-                this.restaurants.push(restaurant);
-                this.name = '';
-                this.description = '';
-                this.city = '';
-                this.state = '';
-                this.cuisine = '';
-                this.rating = null;
-                this.error = "";
-            }, error => {
-                this.displayErrors(error);
-            })
+        if(!this.error){
+            this.currentRestaurant = {
+                    _id: "",
+                    name: "",
+                    description: "",
+                    city: "",
+                    state: "",
+                    cuisine: "",
+                    rating: 0,
+                };
+        }
+    }
+
+    editRestaurant(id: any){
+        console.log(this.isAdd);
+        console.log(id);
+        var restaurants = this.restaurants;
+        for(var i = 0; i < restaurants.length; i++){
+            if(restaurants[i]._id == id){
+                this.currentRestaurant = restaurants[i];
+                this.isAdd = false;
+            }
+        }
+
     }
 
     updateRestaurant(restaurant: any){
-        event.preventDefault();
         //console.log(this.name);
-        var updRestaurant = {
-            name: restaurant.name,
-            description: restaurant.description,
-            city: restaurant.city,
-            state: restaurant.state,
-            cuisine: restaurant.cuisine,
-            rating: restaurant.rating
-        }
-
-        this.restaurantService.updateRestaurant(updRestaurant)
+        console.log("in update" + restaurant._id);
+        this.restaurantService.updateRestaurant(restaurant)
             .subscribe(data => {
                 this.error = "";
+                this.isAdd = true;
             }, error => {
                 this.displayErrors(error);
             })

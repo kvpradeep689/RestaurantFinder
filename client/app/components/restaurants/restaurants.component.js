@@ -14,55 +14,72 @@ var RestaurantsComponent = (function () {
     function RestaurantsComponent(restaurantService) {
         var _this = this;
         this.restaurantService = restaurantService;
+        this.currentRestaurant = {
+            _id: "",
+            name: "",
+            description: "",
+            city: "",
+            state: "",
+            cuisine: "",
+            rating: 0,
+        };
         this.restaurantService.getRestaurants()
             .subscribe(function (restaurants) {
             _this.restaurants = restaurants;
         }, function (error) {
             _this.displayErrors(error);
         });
+        this.isAdd = true;
     }
     RestaurantsComponent.prototype.addRestaurant = function (event) {
         var _this = this;
         event.preventDefault();
         //console.log(this.name);
-        var newRestaurant = {
-            name: this.name,
-            description: this.description,
-            city: this.city,
-            state: this.state,
-            cuisine: this.cuisine,
-            rating: this.rating
-        };
         //this.restaurants.push(newRestaurant);
-        this.restaurantService.addRestaurant(newRestaurant)
-            .subscribe(function (restaurant) {
-            _this.restaurants.push(restaurant);
-            _this.name = '';
-            _this.description = '';
-            _this.city = '';
-            _this.state = '';
-            _this.cuisine = '';
-            _this.rating = null;
-            _this.error = "";
-        }, function (error) {
-            _this.displayErrors(error);
-        });
+        if (this.isAdd) {
+            this.restaurantService.addRestaurant(this.currentRestaurant)
+                .subscribe(function (restaurant) {
+                _this.restaurants.push(restaurant);
+                _this.isAdd = true;
+                _this.error = "";
+            }, function (error) {
+                _this.displayErrors(error);
+            });
+        }
+        else {
+            this.updateRestaurant(this.currentRestaurant);
+        }
+        if (!this.error) {
+            this.currentRestaurant = {
+                _id: "",
+                name: "",
+                description: "",
+                city: "",
+                state: "",
+                cuisine: "",
+                rating: 0,
+            };
+        }
+    };
+    RestaurantsComponent.prototype.editRestaurant = function (id) {
+        console.log(this.isAdd);
+        console.log(id);
+        var restaurants = this.restaurants;
+        for (var i = 0; i < restaurants.length; i++) {
+            if (restaurants[i]._id == id) {
+                this.currentRestaurant = restaurants[i];
+                this.isAdd = false;
+            }
+        }
     };
     RestaurantsComponent.prototype.updateRestaurant = function (restaurant) {
         var _this = this;
-        event.preventDefault();
         //console.log(this.name);
-        var updRestaurant = {
-            name: restaurant.name,
-            description: restaurant.description,
-            city: restaurant.city,
-            state: restaurant.state,
-            cuisine: restaurant.cuisine,
-            rating: restaurant.rating
-        };
-        this.restaurantService.updateRestaurant(updRestaurant)
+        console.log("in update" + restaurant._id);
+        this.restaurantService.updateRestaurant(restaurant)
             .subscribe(function (data) {
             _this.error = "";
+            _this.isAdd = true;
         }, function (error) {
             _this.displayErrors(error);
         });

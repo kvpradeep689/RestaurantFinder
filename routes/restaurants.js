@@ -18,6 +18,7 @@ router.get('/restaurants', function(req, res, next){
 
 //Get single restaurant
 router.get('/restaurant/:id', function(req, res, next){
+    console.log('Rest API: Getting single restaurant' + req.params.id)
     db.getDocumentInCollection('restaurants', req.params.id, function(err, restaurant){
         if(err){
             res.send(err);
@@ -29,6 +30,7 @@ router.get('/restaurant/:id', function(req, res, next){
 //Add Restaurant
 router.post('/restaurant', function(req, res, next){
     var restaurant = req.body;
+    console.log('Rest API: Add restaurant ' + restaurant.name)
     if(!restaurant.name || !isValidRating(restaurant.rating)){
         var errorMessage = buildErrorMessage(restaurant);
         res.status(400);
@@ -44,16 +46,19 @@ router.post('/restaurant', function(req, res, next){
             res.json(restaurant);
         });
     }
+    console.log('Rest API: Added restaurant ' + restaurant._id)
 });
 
 //Delete single restaurant
 router.delete('/restaurant/:id', function(req, res, next){
+    console.log('Rest API: Deleting restaurant ' + req.params.id)
     db.deleteDocument('restaurants', req.params.id, function(err, restaurant){
         if(err){
             res.send(err);
         }
         res.json(restaurant);
     });
+    console.log('Rest API: Deleted restaurant ' + req.params.id)
 });
 
 //Update restaurant

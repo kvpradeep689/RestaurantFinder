@@ -15,7 +15,7 @@ export class RestaurantService{
                     .map(res => res.json());
     }
 
-    addRestaurant(newRestaurant: Restaurant){
+    addRestaurant(newRestaurant: any){
         console.log('Service: Adding ' + newRestaurant.name);
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -23,7 +23,7 @@ export class RestaurantService{
             .map(res => res.json());
     }
 
-    updateRestaurant(restaurant: Restaurant){
+    updateRestaurant(restaurant: any){
         console.log('Service: Updating ' + restaurant._id);
 
         var headers = new Headers();
