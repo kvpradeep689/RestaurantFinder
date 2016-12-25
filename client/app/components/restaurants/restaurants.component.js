@@ -30,6 +30,8 @@ var RestaurantsComponent = (function () {
             _this.displayErrors(error);
         });
         this.isAdd = true;
+        this.addUpdate = "Add";
+        this.currentRestaurant.rating = null;
     }
     RestaurantsComponent.prototype.addRestaurant = function (event) {
         var _this = this;
@@ -42,23 +44,22 @@ var RestaurantsComponent = (function () {
                 _this.restaurants.push(restaurant);
                 _this.isAdd = true;
                 _this.error = "";
+                console.log("Added...reset UI now");
+                _this.currentRestaurant = {
+                    _id: "",
+                    name: "",
+                    description: "",
+                    city: "",
+                    state: "",
+                    cuisine: "",
+                    rating: null,
+                };
             }, function (error) {
                 _this.displayErrors(error);
             });
         }
         else {
             this.updateRestaurant(this.currentRestaurant);
-        }
-        if (!this.error) {
-            this.currentRestaurant = {
-                _id: "",
-                name: "",
-                description: "",
-                city: "",
-                state: "",
-                cuisine: "",
-                rating: 0,
-            };
         }
     };
     RestaurantsComponent.prototype.editRestaurant = function (id) {
@@ -69,6 +70,7 @@ var RestaurantsComponent = (function () {
             if (restaurants[i]._id == id) {
                 this.currentRestaurant = restaurants[i];
                 this.isAdd = false;
+                this.addUpdate = "Update";
             }
         }
     };
@@ -80,6 +82,16 @@ var RestaurantsComponent = (function () {
             .subscribe(function (data) {
             _this.error = "";
             _this.isAdd = true;
+            _this.addUpdate = "Add";
+            _this.currentRestaurant = {
+                _id: "",
+                name: "",
+                description: "",
+                city: "",
+                state: "",
+                cuisine: "",
+                rating: null,
+            };
         }, function (error) {
             _this.displayErrors(error);
         });

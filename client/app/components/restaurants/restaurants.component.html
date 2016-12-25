@@ -11,7 +11,7 @@
         <input type="text" [(ngModel)]="currentRestaurant.state" name="state" class="form-contol" placeholder="State" />
         <input type="text" [(ngModel)]="currentRestaurant.cuisine" name="cuisine" class="form-contol" placeholder="Cuisine" />
         <input type="text" [(ngModel)]="currentRestaurant.rating" name="rating" class="form-contol" style="width:60px" placeholder="Rating" />
-        <input type="button" (click)="addRestaurant($event)" value="Add/Update" class="btn btn-primary">
+        <input type="button" (click)="addRestaurant($event)" value={{addUpdate}} class="btn btn-primary">
     </div>
 </form>
 

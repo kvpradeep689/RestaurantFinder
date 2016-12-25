@@ -22,6 +22,7 @@ export class RestaurantsComponent  {
     }
     error: string;
     isAdd: boolean;
+    addUpdate: string;
 
     constructor(private restaurantService:RestaurantService){
         this.restaurantService.getRestaurants()
@@ -31,6 +32,8 @@ export class RestaurantsComponent  {
                 this.displayErrors(error);
             })
           this.isAdd = true;
+          this.addUpdate = "Add";
+          this.currentRestaurant.rating = null;
     }
 
     addRestaurant(event: any){
@@ -43,25 +46,23 @@ export class RestaurantsComponent  {
                     this.restaurants.push(restaurant);
                     this.isAdd = true;
                     this.error = "";
-                }, error => {
+                    console.log("Added...reset UI now");
+                    this.currentRestaurant = {
+                                                _id: "",
+                                                name: "",
+                                                description: "",
+                                                city: "",
+                                                state: "",
+                                                cuisine: "",
+                                                rating: null,
+                                            };
+               }, error => {
                     this.displayErrors(error);
                 })
         }
         else
         {
             this.updateRestaurant(this.currentRestaurant);
-        }
-
-        if(!this.error){
-            this.currentRestaurant = {
-                    _id: "",
-                    name: "",
-                    description: "",
-                    city: "",
-                    state: "",
-                    cuisine: "",
-                    rating: 0,
-                };
         }
     }
 
@@ -73,6 +74,7 @@ export class RestaurantsComponent  {
             if(restaurants[i]._id == id){
                 this.currentRestaurant = restaurants[i];
                 this.isAdd = false;
+                this.addUpdate = "Update";
             }
         }
 
@@ -85,6 +87,16 @@ export class RestaurantsComponent  {
             .subscribe(data => {
                 this.error = "";
                 this.isAdd = true;
+                this.addUpdate = "Add";
+                this.currentRestaurant = {
+                                            _id: "",
+                                            name: "",
+                                            description: "",
+                                            city: "",
+                                            state: "",
+                                            cuisine: "",
+                                            rating: null,
+                                        };
             }, error => {
                 this.displayErrors(error);
             })
