@@ -18,14 +18,14 @@ var RestaurantService = (function () {
     }
     RestaurantService.prototype.getRestaurants = function () {
         console.log('Service: Getting all restaurants');
-        return this.http.get('http://localhost:3000/api/restaurants')
+        return this.http.get('/api/restaurants')
             .map(function (res) { return res.json(); });
     };
     RestaurantService.prototype.addRestaurant = function (newRestaurant) {
         console.log('Service: Adding ' + newRestaurant.name);
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        return this.http.post('http://localhost:3000/api/restaurant', JSON.stringify(newRestaurant), { headers: headers })
+        return this.http.post('/api/restaurant', JSON.stringify(newRestaurant), { headers: headers })
             .map(function (res) { return res.json(); });
     };
     RestaurantService.prototype.updateRestaurant = function (restaurant) {

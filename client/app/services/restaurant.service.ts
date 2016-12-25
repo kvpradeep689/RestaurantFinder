@@ -10,7 +10,7 @@ export class RestaurantService{
 
     getRestaurants(){
         console.log('Service: Getting all restaurants');
-        return this.http.get('http://localhost:3000/api/restaurants')
+        return this.http.get('/api/restaurants')
                     .map(res => res.json());
     }
 
@@ -18,7 +18,7 @@ export class RestaurantService{
         console.log('Service: Adding ' + newRestaurant.name);
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this.http.post('http://localhost:3000/api/restaurant', JSON.stringify(newRestaurant), {headers: headers})
+        return this.http.post('/api/restaurant', JSON.stringify(newRestaurant), {headers: headers})
             .map(res => res.json());
     }
 
