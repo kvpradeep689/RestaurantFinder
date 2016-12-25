@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
+import { Restaurant } from '../../restaurant';
 
 @Injectable()
 export class RestaurantService{
@@ -14,7 +15,7 @@ export class RestaurantService{
                     .map(res => res.json());
     }
 
-    addRestaurant(newRestaurant: any){
+    addRestaurant(newRestaurant: Restaurant){
         console.log('Service: Adding ' + newRestaurant.name);
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -22,7 +23,7 @@ export class RestaurantService{
             .map(res => res.json());
     }
 
-    updateRestaurant(restaurant: any){
+    updateRestaurant(restaurant: Restaurant){
         console.log('Service: Updating ' + restaurant._id);
 
         var headers = new Headers();

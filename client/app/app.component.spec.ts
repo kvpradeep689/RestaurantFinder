@@ -10,6 +10,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By }           from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { Restaurant } from '../restaurant';
 
 describe('AppComponent', function () {
   let de: DebugElement;
@@ -20,15 +21,10 @@ describe('AppComponent', function () {
   //let resService: RestaurantService;
   let fixture: ComponentFixture<AppComponent>;
   //let restFixture: ComponentFixture<RestaurantsComponent>;
-  class MockRestaurantService extends RestaurantService {
-    constructor() {
-        super(null);
-    }
 
-    getRestaurants() {
-        console.log("sending fake restaurants");
-        return Observable.of([
+  var restaurantsData = [
             {
+                "_id": "1",
                 "name": "McDonalds",
                 "description": "Fast food chain",
                 "city": "Charleston",
@@ -37,6 +33,7 @@ describe('AppComponent', function () {
                 "rating": 4
             },
             {
+                 "_id": "2",
                 "name": "Olive Garden",
                 "description": "Dine in Italian restaurant",
                 "city": "Charleston",
@@ -45,6 +42,7 @@ describe('AppComponent', function () {
                 "rating": 4
             },
             {
+                 "_id": "3",
                 "name": "Andolinis",
                 "description": "Pizza restaurant",
                 "city": "Charleston",
@@ -52,8 +50,36 @@ describe('AppComponent', function () {
                 "cuisine": "Italian",
                 "rating": 3
             }
-        ]);
+        ];
+  class MockRestaurantService extends RestaurantService {
+    constructor() {
+        super(null);
     }
+
+    getRestaurants() {
+        console.log("Mock getRestaurants");
+        return Observable.of(restaurantsData);
+    }
+/*
+    addRestaurant(newRestaurant: Restaurant){
+        console.log("Mock addRestaurant");
+        return restaurantsData.push(JSON.stringify(newRestaurant));
+    }
+
+    updateRestaurant(restaurant: Restaurant){
+        console.log("Mock updateRestaurant");
+        return restaurantsData;
+    }
+
+    deleteRestaurant(id: any){
+        console.log("Mock deleteRestaurant");
+        for(var i = 0; i < restaurantsData.length; i++){
+                        if(restaurantsData[i]._id == id){
+                            restaurantsData.splice(i, 1);
+                        }
+                    }
+        return restaurantsData;
+    } */
   }
 
   class MockRestaurantsComponent extends RestaurantsComponent {
@@ -100,4 +126,13 @@ describe('AppComponent', function () {
     expect(deArray.length).toMatch(/4/i,
       'Grid should have three Restaurants (four rows including header)');
   });
+
+ /* it('should delete restaurant on delete button click', () => {
+    fixture.detectChanges();
+    deArray = de.queryAll(By.css('.row'));
+    console.log(deArray);
+    const h1 = deArray.length;
+    expect(deArray.length).toMatch(/4/i,
+      'Grid should have three Restaurants (four rows including header)');
+  }); */
 });

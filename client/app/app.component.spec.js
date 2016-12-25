@@ -23,39 +23,43 @@ describe('AppComponent', function () {
     //let resService: RestaurantService;
     var fixture;
     //let restFixture: ComponentFixture<RestaurantsComponent>;
+    var restaurantsData = [
+        {
+            "_id": "1",
+            "name": "McDonalds",
+            "description": "Fast food chain",
+            "city": "Charleston",
+            "state": "South Carolina",
+            "cuisine": "American",
+            "rating": 4
+        },
+        {
+            "_id": "2",
+            "name": "Olive Garden",
+            "description": "Dine in Italian restaurant",
+            "city": "Charleston",
+            "state": "South Carolina",
+            "cuisine": "Italian",
+            "rating": 4
+        },
+        {
+            "_id": "3",
+            "name": "Andolinis",
+            "description": "Pizza restaurant",
+            "city": "Charleston",
+            "state": "South Carolina",
+            "cuisine": "Italian",
+            "rating": 3
+        }
+    ];
     var MockRestaurantService = (function (_super) {
         __extends(MockRestaurantService, _super);
         function MockRestaurantService() {
             _super.call(this, null);
         }
         MockRestaurantService.prototype.getRestaurants = function () {
-            console.log("sending fake restaurants");
-            return Rx_1.Observable.of([
-                {
-                    "name": "McDonalds",
-                    "description": "Fast food chain",
-                    "city": "Charleston",
-                    "state": "South Carolina",
-                    "cuisine": "American",
-                    "rating": 4
-                },
-                {
-                    "name": "Olive Garden",
-                    "description": "Dine in Italian restaurant",
-                    "city": "Charleston",
-                    "state": "South Carolina",
-                    "cuisine": "Italian",
-                    "rating": 4
-                },
-                {
-                    "name": "Andolinis",
-                    "description": "Pizza restaurant",
-                    "city": "Charleston",
-                    "state": "South Carolina",
-                    "cuisine": "Italian",
-                    "rating": 3
-                }
-            ]);
+            console.log("Mock getRestaurants");
+            return Rx_1.Observable.of(restaurantsData);
         };
         return MockRestaurantService;
     }(restaurant_service_1.RestaurantService));
@@ -97,5 +101,13 @@ describe('AppComponent', function () {
         var h1 = deArray.length;
         expect(deArray.length).toMatch(/4/i, 'Grid should have three Restaurants (four rows including header)');
     });
+    /* it('should delete restaurant on delete button click', () => {
+       fixture.detectChanges();
+       deArray = de.queryAll(By.css('.row'));
+       console.log(deArray);
+       const h1 = deArray.length;
+       expect(deArray.length).toMatch(/4/i,
+         'Grid should have three Restaurants (four rows including header)');
+     }); */
 });
 //# sourceMappingURL=app.component.spec.js.map
