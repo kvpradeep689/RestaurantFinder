@@ -29,7 +29,7 @@ export class RestaurantsComponent  {
             })
     }
 
-    addRestaurant(event){
+    addRestaurant(event: any){
         event.preventDefault();
         //console.log(this.name);
         var newRestaurant = {
@@ -57,7 +57,7 @@ export class RestaurantsComponent  {
             })
     }
 
-    updateRestaurant(restaurant){
+    updateRestaurant(restaurant: any){
         event.preventDefault();
         //console.log(this.name);
         var updRestaurant = {
@@ -77,7 +77,7 @@ export class RestaurantsComponent  {
             })
     }
 
-    deleteRestaurant(id){
+    deleteRestaurant(id: any){
         var restaurants = this.restaurants;
         this.restaurantService.deleteRestaurant(id)
             .subscribe(data => {
@@ -94,7 +94,7 @@ export class RestaurantsComponent  {
             })
     }
 
-    displayErrors(error) {
+    displayErrors(error: any) {
         console.log(error);
         this.error = error._body;
    }

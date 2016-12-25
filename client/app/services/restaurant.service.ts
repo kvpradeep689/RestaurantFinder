@@ -14,7 +14,7 @@ export class RestaurantService{
                     .map(res => res.json());
     }
 
-    addRestaurant(newRestaurant){
+    addRestaurant(newRestaurant: any){
         console.log('Service: Adding ' + newRestaurant.name);
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -22,7 +22,7 @@ export class RestaurantService{
             .map(res => res.json());
     }
 
-    updateRestaurant(restaurant){
+    updateRestaurant(restaurant: any){
         console.log('Service: Updating ' + restaurant._id);
 
         var headers = new Headers();
@@ -31,7 +31,7 @@ export class RestaurantService{
             .map(res => res.json());
     }
 
-    deleteRestaurant(id){
+    deleteRestaurant(id: any){
         console.log('Service: Deleting ' + id);
         return this.http.delete('/api/restaurant/' + id)
             .map(res => res.json());

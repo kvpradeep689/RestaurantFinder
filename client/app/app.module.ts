@@ -1,4 +1,4 @@
-import { NgModule }      from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA  }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
@@ -8,6 +8,7 @@ import { RestaurantsComponent } from './components/restaurants/restaurants.compo
 @NgModule({
   imports:      [ BrowserModule, HttpModule, FormsModule ],
   declarations: [ AppComponent, RestaurantsComponent ],
-  bootstrap:    [ AppComponent ]
+  bootstrap:    [ AppComponent ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA  ]
 })
 export class AppModule { }

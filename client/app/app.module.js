@@ -21,7 +21,8 @@ var AppModule = (function () {
         core_1.NgModule({
             imports: [platform_browser_1.BrowserModule, http_1.HttpModule, forms_1.FormsModule],
             declarations: [app_component_1.AppComponent, restaurants_component_1.RestaurantsComponent],
-            bootstrap: [app_component_1.AppComponent]
+            bootstrap: [app_component_1.AppComponent],
+            schemas: [core_1.CUSTOM_ELEMENTS_SCHEMA]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);
