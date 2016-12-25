@@ -60,7 +60,7 @@ exports.addDocument = function(collection, document, func) {
 
 //Update document to collection
 exports.updateDocument = function(collection, document, id, func) {
-    console.log('DBAccessLayer: addDocument on ' + collection + ' collection ' + id);
+    console.log('DBAccessLayer: updateDocument on ' + collection + ' collection ' + id);
     return  db.collection(collection).update({_id: mongojs.ObjectId(id)}, document, {}, function(err, doc){
             func(err, doc);
       });
