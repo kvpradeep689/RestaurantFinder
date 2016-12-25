@@ -5,4 +5,4 @@ var Restaurant = (function () {
     return Restaurant;
 }());
 exports.Restaurant = Restaurant;
-//# sourceMappingURL=Restaurant.js.map
+//# sourceMappingURL=restaurant.js.map

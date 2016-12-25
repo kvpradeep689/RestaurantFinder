@@ -1,23 +1,24 @@
 var express = require('express');
 var router = express.Router();
-//Used to interact with mongodb
-var mongojs = require('mongojs');
-var db = mongojs('mongodb://pradeep:pradeep@ds145138.mlab.com:45138/restaurants_pradeep', ['restaurants']);
+var db = require('./db')
+
+// Connect to Mongo on start
+db.connect();
 
 //Get all restaurants
 router.get('/restaurants', function(req, res, next){
-    //res.send('Restaurantes API');
-    db.restaurants.find(function(err, restaurants){
-        if(err){
-            res.send(err);
-        }
-        res.json(restaurants);
-    });
-});
+    console.log('Rest API: Getting restaurants')
+    db.getCollection('restaurants', function(err, restaurants){
+            if(err){
+                res.send(err);
+            }
+            res.json(restaurants);
+        });
+}); 
 
 //Get single restaurant
 router.get('/restaurant/:id', function(req, res, next){
-    db.restaurants.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, restaurant){
+    db.getDocumentInCollection('restaurants', req.params.id, function(err, restaurant){
         if(err){
             res.send(err);
         }
@@ -36,7 +37,7 @@ router.post('/restaurant', function(req, res, next){
         });
     }
     else{
-        db.restaurants.save(restaurant, function(err, restaurant){
+        db.addDocument('restaurants', restaurant, function(err, restaurant){
             if(err){
                 res.send(err);
             }
@@ -47,7 +48,7 @@ router.post('/restaurant', function(req, res, next){
 
 //Delete single restaurant
 router.delete('/restaurant/:id', function(req, res, next){
-    db.restaurants.remove({_id: mongojs.ObjectId(req.params.id)}, function(err, restaurant){
+    db.deleteDocument('restaurants', req.params.id, function(err, restaurant){
         if(err){
             res.send(err);
         }
@@ -87,7 +88,7 @@ router.put('/restaurant/:id', function(req, res, next){
         });
     }
     else{
-        db.restaurants.update({_id: mongojs.ObjectId(req.params.id)}, updrestaurant, {}, function(err, restaurant){
+        db.updateDocument('restaurants', updrestaurant, req.params.id, function(err, restaurant){
             if(err){
                 res.send(err);
             }
