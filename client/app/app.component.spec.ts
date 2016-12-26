@@ -70,7 +70,7 @@ describe('AppComponent', function () {
         console.log("Mock updateRestaurant");
         return restaurantsData;
     }
-
+*/
     deleteRestaurant(id: any){
         console.log("Mock deleteRestaurant");
         for(var i = 0; i < restaurantsData.length; i++){
@@ -78,8 +78,10 @@ describe('AppComponent', function () {
                             restaurantsData.splice(i, 1);
                         }
                     }
-        return restaurantsData;
-    } */
+        console.log(restaurantsData);
+          
+        return Observable.of(restaurantsData);
+    } 
   }
 
   class MockRestaurantsComponent extends RestaurantsComponent {
@@ -87,7 +89,6 @@ describe('AppComponent', function () {
         super(new MockRestaurantService());
     }
   }
-  
   
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -127,12 +128,16 @@ describe('AppComponent', function () {
       'Grid should have three Restaurants (four rows including header)');
   });
 
- /* it('should delete restaurant on delete button click', () => {
+  it('should delete restaurant on delete button click', () => {
     fixture.detectChanges();
-    deArray = de.queryAll(By.css('.row'));
+    fe = de.query(By.css('.btn-danger'));
+    fe.nativeElement.click();
+    //fixture = TestBed.createComponent(AppComponent);
+    //comp = fixture.componentInstance;
+    //de = fixture.debugElement;
+    deArray = de.queryAll(By.css('.btn-danger'));
     console.log(deArray);
     const h1 = deArray.length;
-    expect(deArray.length).toMatch(/4/i,
-      'Grid should have three Restaurants (four rows including header)');
-  }); */
+    expect(deArray.length).toMatch(/2/i, 'Grid should have two Restaurants)');
+  });
 });

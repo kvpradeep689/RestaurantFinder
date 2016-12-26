@@ -40,12 +40,7 @@ export class RestaurantsComponent  {
     addRestaurant(event: any){
         event.preventDefault();
         //console.log(this.name);
-        /*
-        //Get the rating from the dropdown and update the restaurant object
-        var getSelectedId = document.getElementById('selectedRating');
-        console.log(getSelectedId);
-        this.currentRestaurant.rating = getSelectedId.options[getSelectedId.selectedIndex].value;
-        */
+        
         //Check if add or update
         if(this.isAdd) {
             //Initiate the service call to add restaurant
@@ -139,7 +134,6 @@ export class RestaurantsComponent  {
     }
 
     changeRating(value: number){
-        console.log(value);
         this.currentRestaurant.rating=value;
     }
 }

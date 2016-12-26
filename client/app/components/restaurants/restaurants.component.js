@@ -38,12 +38,6 @@ var RestaurantsComponent = (function () {
         var _this = this;
         event.preventDefault();
         //console.log(this.name);
-        /*
-        //Get the rating from the dropdown and update the restaurant object
-        var getSelectedId = document.getElementById('selectedRating');
-        console.log(getSelectedId);
-        this.currentRestaurant.rating = getSelectedId.options[getSelectedId.selectedIndex].value;
-        */
         //Check if add or update
         if (this.isAdd) {
             //Initiate the service call to add restaurant
@@ -132,7 +126,6 @@ var RestaurantsComponent = (function () {
         this.error = error._body;
     };
     RestaurantsComponent.prototype.changeRating = function (value) {
-        console.log(value);
         this.currentRestaurant.rating = value;
     };
     RestaurantsComponent = __decorate([

@@ -61,6 +61,27 @@ describe('AppComponent', function () {
             console.log("Mock getRestaurants");
             return Rx_1.Observable.of(restaurantsData);
         };
+        /*
+            addRestaurant(newRestaurant: Restaurant){
+                console.log("Mock addRestaurant");
+                return restaurantsData.push(JSON.stringify(newRestaurant));
+            }
+        
+            updateRestaurant(restaurant: Restaurant){
+                console.log("Mock updateRestaurant");
+                return restaurantsData;
+            }
+        */
+        MockRestaurantService.prototype.deleteRestaurant = function (id) {
+            console.log("Mock deleteRestaurant");
+            for (var i = 0; i < restaurantsData.length; i++) {
+                if (restaurantsData[i]._id == id) {
+                    restaurantsData.splice(i, 1);
+                }
+            }
+            console.log(restaurantsData);
+            return Rx_1.Observable.of(restaurantsData);
+        };
         return MockRestaurantService;
     }(restaurant_service_1.RestaurantService));
     var MockRestaurantsComponent = (function (_super) {
@@ -101,13 +122,17 @@ describe('AppComponent', function () {
         var h1 = deArray.length;
         expect(deArray.length).toMatch(/4/i, 'Grid should have three Restaurants (four rows including header)');
     });
-    /* it('should delete restaurant on delete button click', () => {
-       fixture.detectChanges();
-       deArray = de.queryAll(By.css('.row'));
-       console.log(deArray);
-       const h1 = deArray.length;
-       expect(deArray.length).toMatch(/4/i,
-         'Grid should have three Restaurants (four rows including header)');
-     }); */
+    it('should delete restaurant on delete button click', function () {
+        fixture.detectChanges();
+        fe = de.query(platform_browser_2.By.css('.btn-danger'));
+        fe.nativeElement.click();
+        //fixture = TestBed.createComponent(AppComponent);
+        //comp = fixture.componentInstance;
+        //de = fixture.debugElement;
+        deArray = de.queryAll(platform_browser_2.By.css('.btn-danger'));
+        console.log(deArray);
+        var h1 = deArray.length;
+        expect(deArray.length).toMatch(/2/i, 'Grid should have two Restaurants)');
+    });
 });
 //# sourceMappingURL=app.component.spec.js.map
