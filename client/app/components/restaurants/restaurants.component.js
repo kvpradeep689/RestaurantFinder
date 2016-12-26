@@ -23,6 +23,7 @@ var RestaurantsComponent = (function () {
             cuisine: "",
             rating: 0,
         };
+        //Get restaurants
         this.restaurantService.getRestaurants()
             .subscribe(function (restaurants) {
             _this.restaurants = restaurants;
@@ -33,18 +34,20 @@ var RestaurantsComponent = (function () {
         this.addUpdate = "Add";
         this.currentRestaurant.rating = null;
     }
+    //Add the restaurant
     RestaurantsComponent.prototype.addRestaurant = function (event) {
         var _this = this;
         event.preventDefault();
         //console.log(this.name);
         //this.restaurants.push(newRestaurant);
         if (this.isAdd) {
+            //Initiate the service call to add restaurant
             this.restaurantService.addRestaurant(this.currentRestaurant)
                 .subscribe(function (restaurant) {
                 _this.restaurants.push(restaurant);
                 _this.isAdd = true;
                 _this.error = "";
-                console.log("Added...reset UI now");
+                console.log("Added restaurant...reset UI now");
                 _this.currentRestaurant = {
                     _id: "",
                     name: "",
@@ -62,6 +65,7 @@ var RestaurantsComponent = (function () {
             this.updateRestaurant(this.currentRestaurant);
         }
     };
+    //Edit the existing restaurant. Use the same fields and binding which are there to add restaurant
     RestaurantsComponent.prototype.editRestaurant = function (id) {
         console.log(this.isAdd);
         console.log(id);
@@ -74,12 +78,14 @@ var RestaurantsComponent = (function () {
             }
         }
     };
+    //Update the existing restaurant to the database
     RestaurantsComponent.prototype.updateRestaurant = function (restaurant) {
         var _this = this;
         //console.log(this.name);
-        console.log("in update" + restaurant._id);
+        console.log("In update " + restaurant._id);
         this.restaurantService.updateRestaurant(restaurant)
             .subscribe(function (data) {
+            //Update success. Reset all fields
             _this.error = "";
             _this.isAdd = true;
             _this.addUpdate = "Add";
@@ -96,12 +102,14 @@ var RestaurantsComponent = (function () {
             _this.displayErrors(error);
         });
     };
+    //Deleting a single restaurant
     RestaurantsComponent.prototype.deleteRestaurant = function (id) {
         var _this = this;
         var restaurants = this.restaurants;
         this.restaurantService.deleteRestaurant(id)
             .subscribe(function (data) {
             if (data.n == 1) {
+                //Database delete is a success. So loop through the existing items list and delete it.
                 for (var i = 0; i < restaurants.length; i++) {
                     if (restaurants[i]._id == id) {
                         restaurants.splice(i, 1);
@@ -113,6 +121,7 @@ var RestaurantsComponent = (function () {
             _this.displayErrors(error);
         });
     };
+    //Display the errors to the UI
     RestaurantsComponent.prototype.displayErrors = function (error) {
         console.log(error);
         this.error = error._body;

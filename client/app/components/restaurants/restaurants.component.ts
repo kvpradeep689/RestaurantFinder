@@ -25,6 +25,7 @@ export class RestaurantsComponent  {
     addUpdate: string;
 
     constructor(private restaurantService:RestaurantService){
+        //Get restaurants
         this.restaurantService.getRestaurants()
             .subscribe(restaurants => {
                 this.restaurants = restaurants;
@@ -36,17 +37,19 @@ export class RestaurantsComponent  {
           this.currentRestaurant.rating = null;
     }
 
+    //Add the restaurant
     addRestaurant(event: any){
         event.preventDefault();
         //console.log(this.name);
         //this.restaurants.push(newRestaurant);
         if(this.isAdd) {
+            //Initiate the service call to add restaurant
             this.restaurantService.addRestaurant(this.currentRestaurant)
                 .subscribe(restaurant => {
                     this.restaurants.push(restaurant);
                     this.isAdd = true;
                     this.error = "";
-                    console.log("Added...reset UI now");
+                    console.log("Added restaurant...reset UI now");
                     this.currentRestaurant = {
                                                 _id: "",
                                                 name: "",
@@ -66,6 +69,7 @@ export class RestaurantsComponent  {
         }
     }
 
+    //Edit the existing restaurant. Use the same fields and binding which are there to add restaurant
     editRestaurant(id: any){
         console.log(this.isAdd);
         console.log(id);
@@ -80,11 +84,13 @@ export class RestaurantsComponent  {
 
     }
 
+    //Update the existing restaurant to the database
     updateRestaurant(restaurant: any){
         //console.log(this.name);
-        console.log("in update" + restaurant._id);
+        console.log("In update " + restaurant._id);
         this.restaurantService.updateRestaurant(restaurant)
             .subscribe(data => {
+                //Update success. Reset all fields
                 this.error = "";
                 this.isAdd = true;
                 this.addUpdate = "Add";
@@ -102,11 +108,13 @@ export class RestaurantsComponent  {
             })
     }
 
+    //Deleting a single restaurant
     deleteRestaurant(id: any){
         var restaurants = this.restaurants;
         this.restaurantService.deleteRestaurant(id)
             .subscribe(data => {
                 if(data.n == 1){
+                    //Database delete is a success. So loop through the existing items list and delete it.
                     for(var i = 0; i < restaurants.length; i++){
                         if(restaurants[i]._id == id){
                             restaurants.splice(i, 1);
@@ -119,6 +127,7 @@ export class RestaurantsComponent  {
             })
     }
 
+    //Display the errors to the UI
     displayErrors(error: any) {
         console.log(error);
         this.error = error._body;

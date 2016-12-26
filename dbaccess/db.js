@@ -11,9 +11,9 @@ var state = {
 
 //Connect once and use the same connection
 exports.connect = function() {
-  console.log('Opening Db Connection...')
   if (state.db) return;
-
+  console.log('Opening new Db Connection...')
+  
   db = mongojs(url);
   if(db){
     state.db = db
@@ -24,6 +24,7 @@ exports.get = function() {
   return state.db
 }
 
+//Close the db connection
 exports.close = function(done) {
   if (state.db) {
     state.db.close(function(err, result) {
@@ -37,7 +38,9 @@ exports.close = function(done) {
 //Get all documents of a collection
 exports.getCollection = function(collection, func) {
     console.log('DBAccessLayer: getCollection on ' + collection);
+    this.connect();
     return  db.collection(collection).find(function(err, documents){
+            //console.log(documents);
             func(err, documents);
         });
 };
@@ -45,6 +48,7 @@ exports.getCollection = function(collection, func) {
 //Get one document of a collection
 exports.getDocumentInCollection = function(collection, id, func) {
     console.log('DBAccessLayer: getDocumentInCollection on ' + id);
+    this.connect();
     return  db.collection(collection).findOne({_id: mongojs.ObjectId(id)}, function(err, document){
         func(err, document);
     });
@@ -53,6 +57,7 @@ exports.getDocumentInCollection = function(collection, id, func) {
 //Add document to collection
 exports.addDocument = function(collection, document, func) {
     console.log('DBAccessLayer: addDocument on ' + collection + ' collection ');
+    this.connect();
     return  db.collection(collection).save(document, function(err, doc){
             func(err, doc);
       });
@@ -61,6 +66,7 @@ exports.addDocument = function(collection, document, func) {
 //Update document to collection
 exports.updateDocument = function(collection, document, id, func) {
     console.log('DBAccessLayer: updateDocument on ' + collection + ' collection ' + id);
+    this.connect();
     return  db.collection(collection).update({_id: mongojs.ObjectId(id)}, document, {}, function(err, doc){
             func(err, doc);
       });
@@ -69,6 +75,7 @@ exports.updateDocument = function(collection, document, id, func) {
 //Delete document to collection
 exports.deleteDocument = function(collection, id, func) {
     console.log('DBAccessLayer: deleteDocument on ' + collection + ' collection ' + id);
+    this.connect();
     return  db.collection(collection).remove({_id: mongojs.ObjectId(id)}, function(err, doc){
             func(err, doc);
       });
