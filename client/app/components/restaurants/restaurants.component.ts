@@ -34,14 +34,19 @@ export class RestaurantsComponent  {
             })
           this.isAdd = true;
           this.addUpdate = "Add";
-          this.currentRestaurant.rating = null;
     }
 
     //Add the restaurant
     addRestaurant(event: any){
         event.preventDefault();
         //console.log(this.name);
-        //this.restaurants.push(newRestaurant);
+        /*
+        //Get the rating from the dropdown and update the restaurant object
+        var getSelectedId = document.getElementById('selectedRating');
+        console.log(getSelectedId);
+        this.currentRestaurant.rating = getSelectedId.options[getSelectedId.selectedIndex].value;
+        */
+        //Check if add or update
         if(this.isAdd) {
             //Initiate the service call to add restaurant
             this.restaurantService.addRestaurant(this.currentRestaurant)
@@ -57,7 +62,7 @@ export class RestaurantsComponent  {
                                                 city: "",
                                                 state: "",
                                                 cuisine: "",
-                                                rating: null,
+                                                rating: 0,
                                             };
                }, error => {
                     this.displayErrors(error);
@@ -101,7 +106,7 @@ export class RestaurantsComponent  {
                                             city: "",
                                             state: "",
                                             cuisine: "",
-                                            rating: null,
+                                            rating: 0,
                                         };
             }, error => {
                 this.displayErrors(error);
@@ -131,5 +136,10 @@ export class RestaurantsComponent  {
     displayErrors(error: any) {
         console.log(error);
         this.error = error._body;
-   }
+    }
+
+    changeRating(value: number){
+        console.log(value);
+        this.currentRestaurant.rating=value;
+    }
 }

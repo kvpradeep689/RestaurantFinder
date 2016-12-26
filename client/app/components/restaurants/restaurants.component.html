@@ -10,7 +10,14 @@
         <input type="text" [(ngModel)]="currentRestaurant.city" name="city" class="form-contol" placeholder="City" />
         <input type="text" [(ngModel)]="currentRestaurant.state" name="state" class="form-contol" placeholder="State" />
         <input type="text" [(ngModel)]="currentRestaurant.cuisine" name="cuisine" class="form-contol" placeholder="Cuisine" />
-        <input type="text" [(ngModel)]="currentRestaurant.rating" name="rating" class="form-contol" style="width:60px" placeholder="Rating" />
+        <select [value]="currentRestaurant.rating" #t (change)="changeRating(t.value)" class="form-contol" placeholder="Rating" id="selectedRating">
+            <option value="0" selected="selected">Rating</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
         <input type="button" (click)="addRestaurant($event)" value={{addUpdate}} class="btn btn-primary">
     </div>
 </form>

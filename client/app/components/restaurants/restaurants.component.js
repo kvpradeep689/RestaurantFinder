@@ -32,14 +32,19 @@ var RestaurantsComponent = (function () {
         });
         this.isAdd = true;
         this.addUpdate = "Add";
-        this.currentRestaurant.rating = null;
     }
     //Add the restaurant
     RestaurantsComponent.prototype.addRestaurant = function (event) {
         var _this = this;
         event.preventDefault();
         //console.log(this.name);
-        //this.restaurants.push(newRestaurant);
+        /*
+        //Get the rating from the dropdown and update the restaurant object
+        var getSelectedId = document.getElementById('selectedRating');
+        console.log(getSelectedId);
+        this.currentRestaurant.rating = getSelectedId.options[getSelectedId.selectedIndex].value;
+        */
+        //Check if add or update
         if (this.isAdd) {
             //Initiate the service call to add restaurant
             this.restaurantService.addRestaurant(this.currentRestaurant)
@@ -55,7 +60,7 @@ var RestaurantsComponent = (function () {
                     city: "",
                     state: "",
                     cuisine: "",
-                    rating: null,
+                    rating: 0,
                 };
             }, function (error) {
                 _this.displayErrors(error);
@@ -96,7 +101,7 @@ var RestaurantsComponent = (function () {
                 city: "",
                 state: "",
                 cuisine: "",
-                rating: null,
+                rating: 0,
             };
         }, function (error) {
             _this.displayErrors(error);
@@ -125,6 +130,10 @@ var RestaurantsComponent = (function () {
     RestaurantsComponent.prototype.displayErrors = function (error) {
         console.log(error);
         this.error = error._body;
+    };
+    RestaurantsComponent.prototype.changeRating = function (value) {
+        console.log(value);
+        this.currentRestaurant.rating = value;
     };
     RestaurantsComponent = __decorate([
         core_1.Component({
