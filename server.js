@@ -27,5 +27,7 @@ app.use('/', index);
 app.use('/api', restaurants);
 
 app.listen(port, function(){
-    console.log('Server starter on port ' + port);
+    console.log('Server started on port ' + port);
 });
+
+module.exports = app;

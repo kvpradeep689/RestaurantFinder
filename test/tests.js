@@ -1,48 +1,185 @@
-var server = require('../server');
-var should = require('should'),
-    supertest = require('supertest');
-var restaurantRoutes = require('../routes/restaurants');
+//During the test the env variable is set to test
+process.env.NODE_ENV = 'test';
 
-function returnsName(name){
-    return name;
-}
+let db = require('../dbaccess/db');
 
-describe('First Test case', function() {
-    it('returns the name passed to the function', function(){
-        returnsName('Pradeep').should.equal('Pradeep');
-    });
-});
+//Require the dev-dependencies
+let chai = require('chai');
+let chaiHttp = require('chai-http');
+let server = require('../server');
+let should = chai.should();
 
-//Note: Getting error "res.json is not a function" when its trying to get data in restaurants router.
-//Need to handle that.
-describe('GetAllRestaurants', function() {
-    it('returns all the restaurants', function(done){
-        supertest(restaurantRoutes)
-        .get('/restaurants')
-        .expect(200)
-        .end(function(err, res){
-            res.status.should.equal(200);
-            done();
-        });
-    });
-});
+chai.use(chaiHttp);
 
-/*describe('GetAllRestaurant', function() {
-    it('returns all the restaurants', function(){
-        restaurantRoutes['/restaurants'].get({}, {
-            json: function(data) {
-                expeect(data).to.equal([{"_id":"585e8ab0734d1d400d132a2f","name":"McDonalds","cuisine":"American","description":"Fast food chain","city":"Charleston","state":"South Carolina","rating":"5"},{"_id":"585e8ae8734d1d400d132a50","name":"Andolinis","description":"Pizza restaurant","city":"Charleston","state":"South Carolina","cuisine":"Italian","rating":3},{"_id":"58601712ce2f752f8ca3893c","name":"Taste Of Thai","description":"Good restaurant","city":"Charleston","state":"SC","cuisine":"Thai","rating":"5"},{"_id":"586025871678a239840f2c3f","name":"Taste Of India","description":"Indian type","city":"CHS","state":"SC","cuisine":"Indian","rating":"2"}]);
+let newRestaurants = [
+                        {
+                            "name": "McDonalds",
+                            "description": "Fast food chain",
+                            "city": "Charleston",
+                            "state": "South Carolina",
+                            "cuisine": "American",
+                            "rating": 4
+                        },
+                        {
+                            "name": "Olive Garden",
+                            "description": "Dine in Italian restaurant",
+                            "city": "Charleston",
+                            "state": "South Carolina",
+                            "cuisine": "Italian",
+                            "rating": 4
+                        },
+                        {
+                            "name": "Andolinis",
+                            "description": "Pizza restaurant",
+                            "city": "Charleston",
+                            "state": "South Carolina",
+                            "cuisine": "Italian",
+                            "rating": 3
+                        },
+                        {
+                            "name": "Taste of Thai",
+                            "description": "Tasty food from Thailand",
+                            "city": "Charleston",
+                            "state": "South Carolina",
+                            "cuisine": "Asian",
+                            "rating": 4
+                        }
+                    ];
+
+var addedRestaurants = [];
+describe('API Tests', function() {
+  before(function() {
+    db.connect();
+    var flag = false;
+    //Delete all the restaurants from the database
+    db.getCollection('restaurants', function(err, restaurants){
+            if(err){
+                console.log(err);
             }
+            //console.log(restaurants);
+            restaurants.forEach(function(element) {
+                db.deleteDocument('restaurants', element._id, function(err, restaurant){
+                        if(err){
+                            console.log(err);
+                        }
+                    });
+            }, this);
         });
-        request({
-            method: 'get',
-            url: 'http://localhost:3000/api/restaurants'
-        }, function (error, respoonse, body) {
-            expect(response.statusCode).to.equal(200);
+    console.log('Adding new restaurants for test cases');
+    newRestaurants.forEach(function(rest) {
+        db.addDocument('restaurants', rest, function(err, restaurant){
+                        if(err){
+                            console.log(err);
+                        }
+                    });
+        }, this);
+    
+    db.getCollection('restaurants', function(err, addedRestaurants){
+            if(err){
+                console.log(err);
+            }
+            //console.log(addedRestaurants);
+        });
+  });
+
+  /*beforeEach(function(done) {
+    // I do stuff like populating db
+  });
+
+  afterEach(function(done) {
+    // I do stuff like deleting populated db
+  });
+  
+  after(function() {
+    db.close();
+  });
+  */
+    describe('/GET Restaurants', () => {
+        it('it should GET all the restaurants', (done) => {
+            chai.request(server)
+                .get('/api/restaurants')
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('array');
+                    res.body.length.should.be.above(0);
+                    done();
+                });
         });
     });
-});*/
 
-/*describe('GetSingleRestaurant', function() {
+    describe('/GET/:id Restaurant', () => {
+        it('it should GET a restaurant by the given id', (done) => {
+            let restaurant = newRestaurants[0];
+            chai.request(server)
+                .get('/api/restaurant/' + restaurant._id)
+                .send(restaurant)
+                .end((err, res) => {
+                    console.log(res.body);
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('name');
+                    res.body.should.have.property('description');
+                    res.body.should.have.property('city');
+                    res.body.should.have.property('state');
+                    res.body.should.have.property('_id').eql(restaurant._id + '');
+                    done();
+                });
+        });
+    });
 
-});*/
+    describe('/POST Add Restaurant', () => {
+    it('it should Add restaurant to database', (done) => {
+        let restaurant = {
+            name: "Taco Bell",
+            description: "Fast food restaurant",
+            city: "Atlanta",
+            state: "Gerogia",
+            cuisine: "Mexican",
+            rating: 4
+        }
+        chai.request(server)
+            .post('/api/restaurant')
+            .send(restaurant)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                console.log(res.body);
+                done();
+            });
+        });
+    });
+
+    describe('/PUT Update Restaurant', () => {
+    it('it should Add restaurant to database', (done) => {
+
+        let restaurant = newRestaurants[0];
+        chai.request(server)
+            .put('/api/restaurant/' + restaurant._id)
+            .send(restaurant)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                console.log(res.body);
+                res.body.should.have.property('ok');
+                done();
+            });
+        });
+    });
+
+    describe('/DELETE Delete Restaurant', () => {
+    it('it should Delete restaurant from database', (done) => {
+
+        let restaurant = newRestaurants[2];
+
+        chai.request(server)
+            .delete('/api/restaurant/' + restaurant._id)
+            .send(restaurant)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                done();
+            });
+        });
+    });
+
+});

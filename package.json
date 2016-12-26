@@ -4,18 +4,20 @@
   "description": "List of restaurants. Add/Modify/Delete them.",
   "main": "server.js",
   "scripts": {
+    "start": "SET NODE_ENV=dev && node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Pradeep Kolla",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.2",
-    "chai": "^3.5.0",
     "ejs": "^2.5.5",
     "express": "^4.14.0",
     "mongojs": "^2.4.0"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "mocha": "^3.2.0",
     "should": "^11.1.2",
     "supertest": "^2.0.1"
