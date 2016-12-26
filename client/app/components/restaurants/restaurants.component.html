@@ -5,11 +5,11 @@
 </div>
 <form class="well">
     <div class="form-group">
-        <input type="text" [(ngModel)]="currentRestaurant.name" name="name" class="form-contol" placeholder="Restaurant Name" />
-        <input type="text" [(ngModel)]="currentRestaurant.description" name="description" class="form-contol" placeholder="Description" />
-        <input type="text" [(ngModel)]="currentRestaurant.city" name="city" class="form-contol" placeholder="City" />
-        <input type="text" [(ngModel)]="currentRestaurant.state" name="state" class="form-contol" placeholder="State" />
-        <input type="text" [(ngModel)]="currentRestaurant.cuisine" name="cuisine" class="form-contol" placeholder="Cuisine" />
+        <input type="text" [(ngModel)]="currentRestaurant.name" name="name" id="resName" class="form-contol" placeholder="Restaurant Name" />
+        <input type="text" [(ngModel)]="currentRestaurant.description" name="description" id="resDesc" class="form-contol" placeholder="Description" />
+        <input type="text" [(ngModel)]="currentRestaurant.city" name="city" id="resCity" class="form-contol" placeholder="City" />
+        <input type="text" [(ngModel)]="currentRestaurant.state" name="state" id="resState" class="form-contol" placeholder="State" />
+        <input type="text" [(ngModel)]="currentRestaurant.cuisine" name="cuisine" id="resCuisine" class="form-contol" placeholder="Cuisine" />
         <select [value]="currentRestaurant.rating" #t (change)="changeRating(t.value)" class="form-contol" placeholder="Rating" id="selectedRating">
             <option value="0" selected="selected">Rating</option>
             <option value="1">1</option>

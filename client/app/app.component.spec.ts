@@ -51,6 +51,15 @@ describe('AppComponent', function () {
                 "rating": 3
             }
         ];
+/*    var newRestaurant = {
+                "name": "Taste of Thai",
+                "description": "Tasty food from Thailand",
+                "city": "Charleston",
+                "state": "South Carolina",
+                "cuisine": "Asian",
+                "rating": 4
+            };
+*/
   class MockRestaurantService extends RestaurantService {
     constructor() {
         super(null);
@@ -60,12 +69,13 @@ describe('AppComponent', function () {
         console.log("Mock getRestaurants");
         return Observable.of(restaurantsData);
     }
-/*
+
     addRestaurant(newRestaurant: Restaurant){
         console.log("Mock addRestaurant");
-        return restaurantsData.push(JSON.stringify(newRestaurant));
+        return Observable.of(restaurantsData.push(newRestaurant));
     }
 
+/*
     updateRestaurant(restaurant: Restaurant){
         console.log("Mock updateRestaurant");
         return restaurantsData;
@@ -73,13 +83,14 @@ describe('AppComponent', function () {
 */
     deleteRestaurant(id: any){
         console.log("Mock deleteRestaurant");
+        /*
         for(var i = 0; i < restaurantsData.length; i++){
                         if(restaurantsData[i]._id == id){
                             restaurantsData.splice(i, 1);
                         }
                     }
         console.log(restaurantsData);
-          
+        */  
         return Observable.of(restaurantsData);
     } 
   }
@@ -128,13 +139,23 @@ describe('AppComponent', function () {
       'Grid should have three Restaurants (four rows including header)');
   });
 
+  it('should add restaurant on add button click', () => {
+    fixture.detectChanges();
+    //document.getElementById('resName').value = "Taste of Thai";
+    //document.getElementById('selectedRating').value = "3";
+    fe = de.query(By.css('.btn-primary'));
+    fe.nativeElement.click();
+    deArray = de.queryAll(By.css('.row'));
+    console.log(deArray);
+    const h1 = deArray.length;
+    expect(deArray.length).toMatch(/5/i,
+      'Grid should have four Restaurants (five rows including header)');
+  });
+
   it('should delete restaurant on delete button click', () => {
     fixture.detectChanges();
     fe = de.query(By.css('.btn-danger'));
     fe.nativeElement.click();
-    //fixture = TestBed.createComponent(AppComponent);
-    //comp = fixture.componentInstance;
-    //de = fixture.debugElement;
     deArray = de.queryAll(By.css('.btn-danger'));
     console.log(deArray);
     const h1 = deArray.length;
